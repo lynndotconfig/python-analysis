@@ -1,0 +1,17 @@
+i = 1
+# LOAD_CONST  0
+# STORE_NAME 0
+
+s = "Python"
+# LOAD_CONST 1
+# STORE_NAME 1
+
+d = {}
+# BUILD_MAP 0
+# STORE_NAME = 2
+
+l = []
+# BUILD_LIST 0
+# STORE_NAME 3
+# LOAD_CONST 2
+# RETURN_VALUE none
