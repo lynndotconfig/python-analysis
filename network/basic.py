@@ -4,16 +4,15 @@ from binascii import hexlify
 import sys
 import argparse
 
-host_name = socket.gethostname()
-print host_name
+def get_hostname():
+    host_name = socket.gethostname()
+    print host_name
 
+    ip_address = socket.gethostbyname(host_name)
+    print ip_address
 
-ip_address = socket.gethostbyname(host_name)
-print ip_address
-
-
-remote_host = 'www.baidu.com'
-print socket.gethostbyname(remote_host)
+    remote_host = 'www.baidu.com'
+    print socket.gethostbyname(remote_host)
 
 
 def convert_ip4_address():
@@ -109,10 +108,83 @@ def modify_buff_size():
     bufsize = sock.getsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF)
     print 'Buffer size [After]: %d' % bufsize
 
+
+def test_socket_mode():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setblocking(1)
+    s.settimeout(0.5)
+    s.bind(("127.0.0.1", 0))
+
+    socket_address = s.getsockname()
+    print "Trivial Server launched on socket: %s" %str(socket_address)
+    while(True):
+        s.listen(1)
+
+
+def reuse_socket_addr():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    # Get the old state of the SO_REUSEADDR option
+    old_state = sock.getsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR)
+    print "Old sock state: %s" % old_state
+
+    # Enable the SO_REUSEADDR option
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    new_state = sock.getsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR)
+    print "New sock state: %s" % new_state
+
+    local_port = 8282
+    srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    srv.bind( ('', local_port) )
+    srv.listen(1)
+    print ("Linstening on port: %s" % local_port)
+    while True:
+        print "in loop"
+        try:
+            connection, addr = srv.accept()
+            print 'Connectied by %s: %s' % (addr[0], addr[1])
+            connection.send('hello client')
+        except KeyboardInterrupt:
+            break
+        except socket.error, msg:
+            print '%s' % (msg)
+
+
+def print_time():
+    import ntplib
+    from time import ctime
+
+    ntp_client = ntplib.NTPClient()
+    response = ntp_client.request('pool.ntp.org')
+    print ctime(respnose.tx_time)
+
+
+def sntp_client():
+    import struct
+    import time
+
+    NTP_SERVER = '1.pool.ntp.org'
+    TIME1970 = 2208988800L
+
+    client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    data = '\x1b' + 47 * '\0'
+    client.sendto(data, (NTP_SERVER, 123))
+    data, address = client.recvfrom( 1024 )
+    if data:
+        print 'Response received from: ', address
+    t = struct.unpack('!12I', data)[10]
+    t -= TIME1970
+    print '\tTime=%s' % time.ctime(t)
+
 if __name__ == '__main__':
     # convert_ip4_address()
     # find_service_name()
     # convert_integer()
     # test_socket_timeout()
     # socket_errors()
-    modify_buff_size()
+    # modify_buff_size()
+    # test_socket_mode()
+    # reuse_socket_addr()
+    # print_time()
+    sntp_client()
