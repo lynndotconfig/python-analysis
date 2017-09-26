@@ -6,9 +6,9 @@ import array
 
 SIOCGIFCONF = 0x8912  # From c library sockios.h
 STUCT_SIZE_32 = 32
-STUCT_SIZE_64 = 64
+STUCT_SIZE_64 = 40
 PLATFORM_32_MAX_NUMBER = 2 ** 32
-DEFAULT_INTERFACES = 9
+DEFAULT_INTERFACES = 8
 
 
 def list_interface():
