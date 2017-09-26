@@ -4,7 +4,7 @@ import fcntl
 import struct
 import array
 
-SIOCGIFCONF = 0x8912  # From c library sockios.h
+SIOCGIFCONF = 0x8912  # get iface list (From c library sockios.h)
 STUCT_SIZE_32 = 32
 STUCT_SIZE_64 = 40
 PLATFORM_32_MAX_NUMBER = 2 ** 32

@@ -5,12 +5,14 @@ import sys
 import struct
 import array
 
+SIOCGIFADDR = 0x8915
+
 
 def get_ip_address(ifname):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     return socket.inet_ntoa(fcntl.ioctl(
         s.fileno(),
-        0x8915,  # SIOCGIFADDR))
+        SIOCGIFADDR,  # get PA address (From c library sockios.h)
         struct.pack('256s', ifname[:15]))[20:24])
 
 if __name__ == '__main__':
