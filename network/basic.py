@@ -136,7 +136,7 @@ def reuse_socket_addr():
     local_port = 8282
     srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    srv.bind( ('', local_port) )
+    srv.bind(('', local_port))
     srv.listen(1)
     print ("Linstening on port: %s" % local_port)
     while True:

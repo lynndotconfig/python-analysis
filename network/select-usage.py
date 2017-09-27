@@ -13,11 +13,11 @@ CHAT_SERVER_NAME = 'server'
 
 # Same utilities
 def send(channel, *args):
-    buffer = cPickle.dumps(args)
-    vaule = socket.htonl(len(buffer))
+    buf = cPickle.dumps(args)
+    vaule = socket.htonl(len(buf))
     size = struct.pack("L", vaule)
     channel.send(size)
-    channel.send(buffer)
+    channel.send(buf)
 
 
 def receive(channel):
@@ -27,7 +27,7 @@ def receive(channel):
         size = socket.ntohl(struct.unpack("L", size)[0])
     except struct.error, e:
         print e
-        return ''
+        return ""
     buf = ""
     while len(buf) < size:
         buf = channel.recv(size - len(buf))
@@ -68,7 +68,6 @@ class ChatServer(object):
     def run(self):
         """Run"""
         inputs = [self.server, sys.stdin]
-        print 'inputs:', inputs
         self.outputs = []
         running = True
         while running:
@@ -150,7 +149,7 @@ class ChatClient(object):
             print "Now connected to chat server@port %d" % self.port
             self.connected = True
             # Send my name
-            send(self.sock, 'NAME: ', self.name)
+            send(self.sock, 'NAME: ' + self.name)
             data = receive(self.sock)
             # Contains client address, set it
             addr = data.split('CLIENT: ')[1]
