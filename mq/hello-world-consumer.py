@@ -27,7 +27,7 @@ def msg_consumer(channel, method, header, body):  # function for consumer
     channel.basic_ack(delivery_tag=method.delivery_tag)
     if body == 'quit':
         channel.basic_cancel(consumer_tag="hello-consumer")
-        channel.stop_comsuming()
+        channel.stop_consuming()
     else:
         print body
     return
