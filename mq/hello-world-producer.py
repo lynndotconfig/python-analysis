@@ -13,7 +13,7 @@ channel = conn_broker.channel()  # get channel
 # passive(True): if exist, normally return; else, return err
 channel.exchange_declare(
     exchange="hello-exchange",
-    exchaneg_type="direct",
+    exchange_type="direct",
     passive=False,
     durable=True,
     auto_delete=False)  # declare exchange
