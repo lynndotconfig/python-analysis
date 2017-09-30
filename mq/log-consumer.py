@@ -38,8 +38,6 @@ def log(name):
 
 def callback(channel, method_frame, header_frame, body):
     print body
-    import pdb; pdb.set_trace()
-    # print "%s" %(msg.body)
     channel.basic_ack(delivery_tag=method_frame.delivery_tag)
 
 
