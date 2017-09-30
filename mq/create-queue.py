@@ -16,7 +16,7 @@ channel.exchange_declare(
 )
 
 channel.queue_declare(queue="msg-inbox-errors")  # declare queue
-channel.queue_declare(queue="msg-inbox-logss")  # declare queue
+channel.queue_declare(queue="msg-inbox-logs")  # declare queue
 channel.queue_declare(queue="all-logs")  # declare queue
 
 channel.queue_bind(
