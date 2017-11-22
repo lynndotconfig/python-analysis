@@ -1,0 +1,5 @@
+[{nodes,[{disc,['rabbit@192-168-48-129']},{ram,[rabbit@ubuntu]}]},
+ {running_nodes,['rabbit@192-168-48-129',rabbit@ubuntu]},
+ {cluster_name,<<"rabbit@192-168-48-129">>},
+ {partitions,[]},
+ {alarms,[{'rabbit@192-168-48-129',[]},{rabbit@ubuntu,[]}]}]

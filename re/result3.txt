@@ -1,0 +1,68 @@
+[
+  {rabbit, [
+    {tcp_listeners, [5672]},
+    {ssl_listeners, [5671]},
+    {num_tcp_acceptors, 10},
+    {num_ssl_acceptors, 1},
+    {handshake_timeout, 10000},
+    {reverse_dns_lookups, true},
+    {loopback_users, [<<"guest">>]},
+    {ssl_options, [
+      {cacertfile, "/path/to/testca/cacert.pem"},
+      {certfile, "/path/to/server/cert.pem"},
+      {keyfile, "/path/to/server/key.pem"},
+      {verify, verify_peer},
+      {fail_if_no_peer_cert, true}
+      ]},
+    {ssl_handshake_timeout, 5000},
+    {default_vhost, <<"/">>},
+    {default_user, <<"guest">>},
+    {default_pass, <<"guest">>},
+    {default_permissions, [<<".*">>,<<".*">>,<<".*">>]},
+    {default_user_tags, [administrator]},
+    {frame_max, 131072},
+    {channel_max, 0},
+    {connection_max, infinity},
+    {tcp_listen_options, [
+      {backlog, 128},
+      {nodelay, true},
+      {exit_on_close, true}
+      ]},
+    {vm_memory_high_watermark, 0.4},
+    {vm_memory_high_watermark_paging_ratio, 0.5},
+    {vm_memory_calculation_strategy, rss},
+    {disk_free_limit, 1000000000},
+    {queue_master_locator, <<"client-local">>},
+    {mirroring_sync_batch_size, 4096},
+    {server_properties, []},
+    {cluster_partition_handling, ignore},
+    {cluster_keepalive_interval, 10000},
+    {collect_statistics, none},
+    {collect_statistics_interval, 5000},
+    {trace_vhosts, []},
+    {hipe_compile, true},
+    {delegate_count, 16},
+    {mnesia_table_loading_retry_limit, 10},
+    {mnesia_table_loading_retry_timeout, 30000},
+    {queue_index_embed_msgs_below, 4096},
+    {queue_index_max_journal_entries, 32768},
+    {channel_operation_timeout, 15000},
+    {queue_explicit_gc_run_operation_threshold, 1000},
+    {lazy_queue_explicit_gc_run_operation_threshold, 1000},
+    {msg_store_file_size_limit, 16777216}
+    ]},
+  {rabbitmq_management, [
+    {http_log_dir, "/var/log/rabbitmq/http.log"},
+    {listener, [
+      {port, 15672},
+      {ip, "127.0.0.1"},
+      {ssl, true},
+      {ssl_opts, [
+        {cacertfile, "/path/to/cacert.pem"},
+        {certfile, "/path/to/cert.pem"},
+        {keyfile, "/path/to/key.pem"}
+        ]}
+      ]},
+    {rates_mode, basic}
+    ]}
+  ].

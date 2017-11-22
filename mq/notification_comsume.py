@@ -7,16 +7,16 @@ conn_broker = pika.BlockingConnection(conn_params)  # connect to server
 channel = conn_broker.channel()  # get channel
 
 channel.exchange_declare(
-    exchange="rpc",
-    exchange_type="direct",
+    exchange="trove",
+    exchange_type="topic",
     auto_delete=False
 )
 
-channel.queue_declare(queue="ping", auto_delete=False)
+channel.queue_declare(queue="notifications.info", auto_delete=False)
 channel.queue_bind(
-    queue="ping",
-    exchange="rpc",
-    routing_key="ping"
+    queue="notifications.info",
+    exchange="trove",
+    routing_key="notifications.info"
 )
 
 
@@ -24,17 +24,13 @@ def api_ping(channel, method, header, body):
     """ping API call."""
     channel.basic_ack(delivery_tag=method.delivery_tag)
     msg_dict = json.loads(body)
-    print "Recive API call.. replying..."
-    channel.basic_publish(
-        body="Pong" + str(msg_dict["time"]),
-        exchange="",
-        routing_key=header.reply_to)
+    print "Recive API call----------------------", msg_dict
 
 
 channel.basic_consume(
     api_ping,
-    queue="ping",
-    consumer_tag="ping"
+    queue="notifications.info",
+    consumer_tag="notifications.info"
 )
 print "Waiting for RPC call..."
 channel.start_consuming()
