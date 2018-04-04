@@ -1,17 +1,22 @@
 import requests
 import time
 
-queue_name = "notifications.info"
 rabbit_user = "guest"
 rabbit_pass = "guest"
 
+queue_names = [
+    "notifications.info",
+    "metering.sample"
+]
+
 def purge_queue():
-    try:
-        res = request.delete("http://localhost:15672/api/queues/%2F" + queue_name + "/contents",
-            auth=(rabbit_user, rabbit_pass))
-    except Exception as e:
-        print e
-        return False
+    for queue_name in queue_names:
+        try:
+            res = requests.delete("http://localhost:15672/api/queues/%2F/" + queue_name + "/contents",
+                auth=(rabbit_user, rabbit_pass))
+        except Exception as e:
+            print e
+            return False
     return True
 
 
